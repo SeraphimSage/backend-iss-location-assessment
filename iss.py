@@ -2,6 +2,8 @@
 
 __author__ = 'Kenneth Pinkerton'
 
+import requests
+
 
 def main():
     pass
