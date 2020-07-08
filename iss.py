@@ -6,7 +6,10 @@ import requests
 
 
 def main():
-    pass
+    get_astro = requests.get(
+        'http://api.open-notify.org/astros.json')
+    astro_dict = get_astro.json()
+    print(astro_dict['name'])
 
 
 if __name__ == '__main__':
