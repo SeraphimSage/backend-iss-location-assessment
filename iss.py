@@ -39,15 +39,13 @@ def world_map():
     setup(width=.90, height=.90, startx=1, starty=1)
     title("Where on the Earth is the ISS?")
     # bgcolor("#111111")
-    bgpic("map.gif")
     color('red', 'yellow')
-    begin_fill()
-    while True:
-        forward(200)
-        left(170)
-        if abs(pos()) < 1:
-            break
-    end_fill()
+    bgpic("map.gif")
+    register_shape("iss.gif")
+    shape("iss.gif")
+    # setheading(0)
+    goto(-116.9012, 26.0871)
+    pendown()
     done()
 
 
