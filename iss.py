@@ -3,6 +3,7 @@
 __author__ = 'Kenneth Pinkerton'
 
 import requests
+from turtle import *
 
 
 def astronaut_active_duty():
@@ -32,9 +33,28 @@ def iss_locator():
     print("Timestamp : ", iss_values[2])
 
 
+def world_map():
+    reset()
+    setworldcoordinates(-0.2, -0.2, 0.2, 0.2)
+    setup(width=.75, height=.75, startx=1, starty=1)
+    title("Where on the Earth is the ISS?")
+    # bgcolor("#111111")
+    bgpic("map.gif")
+    color('red', 'yellow')
+    begin_fill()
+    while True:
+        forward(200)
+        left(170)
+        if abs(pos()) < 1:
+            break
+    end_fill()
+    done()
+
+
 def main():
     astronaut_active_duty()
     iss_locator()
+    world_map()
 
 
 if __name__ == '__main__':
