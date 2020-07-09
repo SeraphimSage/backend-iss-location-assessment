@@ -36,7 +36,7 @@ def iss_locator():
 def world_map():
     reset()
     setworldcoordinates(-0.2, -0.2, 0.2, 0.2)
-    setup(width=.75, height=.75, startx=1, starty=1)
+    setup(width=.90, height=.90, startx=1, starty=1)
     title("Where on the Earth is the ISS?")
     # bgcolor("#111111")
     bgpic("map.gif")
