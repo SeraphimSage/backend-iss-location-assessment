@@ -26,33 +26,35 @@ def iss_locator():
     iss_values = []
     get_iss = requests.get("http://api.open-notify.org/iss-now.json")
     iss_dict = get_iss.json()
-    items = iss_dict.items()
-    for item in items:
-        iss_keys.append(item[0]), iss_values.append(item[1])
-    print("Current ISS relative location : ", iss_values[0])
-    print("Timestamp : ", iss_values[2])
+    timestamp = iss_dict['timestamp']
+    location = iss_dict['iss_position']
+    longitude = float(location['longitude'])
+    latitude = float(location['latitude'])
+    print("Current ISS relative location : ", location)
+    print("Timestamp : ", time.ctime(timestamp))
+    return longitude, latitude
 
 
-def world_map():
-    reset()
-    setworldcoordinates(-0.2, -0.2, 0.2, 0.2)
-    setup(width=.90, height=.90, startx=1, starty=1)
-    title("Where on the Earth is the ISS?")
+def world_map(longitude, latitude):
+    globe = turtle.Screen()
+    globe.setup(720, 360)
+    globe.setworldcoordinates(-180, -90, 180, 90)
+    globe.title("Where on the Earth is the ISS?")
     # bgcolor("#111111")
-    color('red', 'yellow')
-    bgpic("map.gif")
-    register_shape("iss.gif")
-    shape("iss.gif")
-    # setheading(0)
-    goto(-116.9012, 26.0871)
-    pendown()
-    done()
+    globe.bgpic("map.gif")
+    globe.register_shape("iss.gif")
+    iss = turtle.Turtle()
+    iss.shape("iss.gif")
+    iss.setheading(90)
+    iss.penup()
+    iss.goto(longitude, latitude)
+    return globe
 
 
 def main():
     astronaut_active_duty()
-    iss_locator()
-    world_map()
+    longitude, latitude = iss_locator()
+    world_map(longitude, latitude)
 
 
 if __name__ == '__main__':
