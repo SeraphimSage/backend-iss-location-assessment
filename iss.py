@@ -6,6 +6,9 @@ import requests
 import time
 import turtle
 
+indiana_lon = -86.148003
+indiana_lat = 39.791000
+
 
 def astronaut_active_duty():
     astro_values = []
@@ -50,22 +53,30 @@ def world_map(longitude, latitude):
     iss.setheading(90)
     iss.penup()
     iss.goto(longitude, latitude)
+    indiana_loc_pin = turtle.Turtle()
+    indiana_loc_pin.penup()
+    indiana_loc_pin.color('orange')
+    indiana_loc_pin.goto(indiana_lon, indiana_lat)
+    indiana_loc_pin.dot(8)
     globe.exitonclick()
-
     return globe
 
 
-def intercept(longitude, latitude):
+def intercept(latitude, longitude):
     params = {'lat': latitude, 'lon': longitude}
     indiana_intercept = requests.get(
         "http://api.open-notify.org/iss-pass.json", params=params)
     passover = time.ctime(indiana_intercept.json()['response'][1]['risetime'])
-    print("Next time ISS will passover Indianapolis is", passover)
+    print("The next time the ISS will passover Indianapolis is on ", passover)
     return passover
 
 
 def main():
     astronaut_active_duty()
     longitude, latitude = iss_locator()
-    intercept(-86.148003, 39.791000)
+    intercept(indiana_lat, indiana_lon)
     world_map(longitude, latitude)
+
+
+if __name__ == '__main__':
+    main()
