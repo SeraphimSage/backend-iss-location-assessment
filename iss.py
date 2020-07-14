@@ -3,7 +3,8 @@
 __author__ = 'Kenneth Pinkerton'
 
 import requests
-from turtle import *
+import time
+import turtle
 
 
 def astronaut_active_duty():
@@ -19,6 +20,7 @@ def astronaut_active_duty():
 
     for line in astro_values[2]:
         print("Astronaut active assignment : ", line)
+    return(get_astro)
 
 
 def iss_locator():
@@ -40,7 +42,7 @@ def world_map(longitude, latitude):
     globe.setup(720, 360)
     globe.setworldcoordinates(-180, -90, 180, 90)
     globe.title("Where on the Earth is the ISS?")
-    # bgcolor("#111111")
+    globe.bgcolor("#111111")
     globe.bgpic("map.gif")
     globe.register_shape("iss.gif")
     iss = turtle.Turtle()
@@ -48,14 +50,22 @@ def world_map(longitude, latitude):
     iss.setheading(90)
     iss.penup()
     iss.goto(longitude, latitude)
+    globe.exitonclick()
+
     return globe
+
+
+def intercept(longitude, latitude):
+    params = {'lat': latitude, 'lon': longitude}
+    indiana_intercept = requests.get(
+        "http://api.open-notify.org/iss-pass.json", params=params)
+    passover = time.ctime(indiana_intercept.json()['response'][1]['risetime'])
+    print("Next time ISS will passover Indianapolis is", passover)
+    return passover
 
 
 def main():
     astronaut_active_duty()
     longitude, latitude = iss_locator()
+    intercept(-86.148003, 39.791000)
     world_map(longitude, latitude)
-
-
-if __name__ == '__main__':
-    main()
